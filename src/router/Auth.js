@@ -20,16 +20,19 @@ const Auth = () => {
         }
     };
 
+    // 에러
     const onSubmit = async(e) => {
         e.preventDefault();
         try {
             let data;
             if (newAccount) {
                 // Create Account
-                data = await createUserWithEmailAndPassword(authService,email, password);
+                data = await authService.createUserWithEmailAndPassword(email, password);
+                // data = await createUserWithEmailAndPassword(authService, email, password);
             } else {
                 // Login
-                data = await signInWithEmailAndPassword(authService,email, password);
+                data = await authService.signInWithEmailAndPassword(email, password);
+                // data = await signInWithEmailAndPassword(authService,email, password);
             }
             console.log(data);
         } catch (err) {
@@ -37,13 +40,13 @@ const Auth = () => {
         }
     };
 
+
     const toggleAccount = (e) => {
         setNewAccount((prev) => !prev);
     };
 
     const onSocialClick = async(e) => {
         const { target: { name }, } = e;
-        
         let provider;
         if (name === "google") {
             provider = new firebaseInstance.auth.GoogleAuthProvider();
